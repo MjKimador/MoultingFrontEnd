@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Penguin Conservation Dashboard</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="welcome">
+    <h1>🐧 Welcome to the Penguin Conservation Tracker</h1>
+    <p>
+      This dashboard helps researchers and conservationists monitor African penguins throughout their moulting stages.
+      You can view penguin data, track weight trends, and identify those at risk.
+    </p>
+    <ul>
+      <li>🔍 Use the search bar to find a penguin by name or ID.</li>
+      <li>📊 Click "View" to see a penguin's profile and weight trend.</li>
+      <li>📉 Colony statistics and analytics are always up to date.</li>
+    </ul>
+    <p class="note">Click "View" on any penguin below to get started!</p>
+  </div>
+
+  <div class="dashboard">
+    <header class="search-header">
+      <input type="text" id="searchInput" placeholder="Search by name or ID"/>
+      <button onclick="searchPenguin()">Search</button>
+      <button onclick="clearSearch()">Clear</button>
+      <span id="noResultMsg"></span>
+    </header>
+
+    <section class="main-grid">
+      <div class="green-card" id="greenCard">
+        <h3 id="greenName">Name</h3>
+        <p id="greenStage">Stage</p>
+        <img id="penguinImage" src="" alt="Penguin Image"/>
+      </div>
+
+      <div class="red-card" id="redCard">
+        <canvas id="massChart"></canvas>
+      </div>
+
+      <div class="orange-card" id="orangeCard">
+        <h3>📊Colony Stats</h3>
+        <button onclick="viewColonyStats()">View Stats</button>
+    <button onclick="downloadColonyStatsJSON()">Download stats</button>
+    <button onclick="closeColonyStats()">Close Stats</button>
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 1rem;">
+          <div style="flex: 1; min-width: 200px;">
+            <canvas id="colonyBarChart" width="200" height="150"></canvas>
+            <canvas id="riskPieChart" width="200" height="150"></canvas>
+          </div>
+          <div style="flex: 1; min-width: 200px;" id="colonyDetails"></div>
+        </div>
+      </div>
+
+      <div class="blue-card">
+        <div class="table-controls">
+          <button onclick="downloadData()">Download Data</button>
+          <label for="sortSelect">Sort by:</label>
+          <select id="sortSelect" onchange="loadPenguins()">
+            <option value="weight">Weight</option>
+            <option value="last_seen" selected>Last Seen</option>
+            <option value="risk">Risk</option>
+          </select>
+        </div>
+        <div id="searchResultContainer"></div>
+        <table id="penguinTable">
+          <thead>
+            <tr>
+              <th>ID</th><th>Name</th><th>Status</th><th>Mass</th><th>Danger</th><th>Last Seen</th><th>Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+document.getElementById("penguinImage").src = `images/${penguin.id}.jpg`;
