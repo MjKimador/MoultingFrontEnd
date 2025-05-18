@@ -6,42 +6,16 @@ let pieChartInstance = null;
 
 async function loadPenguins() {
   const sortBy = document.getElementById("sortSelect").value;
-  try {
-    const res = await fetch(`https://penguinanalytics.onrender.com/penguins/?sort_by=${sortBy}`);
-    const data = await res.json();
-
-    console.log("🔍 Status:", res.status);
-    console.log("🐧 Raw penguin response:", data);
-
-    if (!res.ok) {
-      throw new Error(`API Error ${res.status}: ${JSON.stringify(data)}`);
-    }
-
-    if (!Array.isArray(data)) {
-      console.error("Expected array but got:", data);
-      document.getElementById("noResultMsg").textContent = "Unexpected data format.";
-      return;
-    }
-
-    allPenguins = data;
-    renderPenguinTable(data);
-    document.getElementById("noResultMsg").textContent = '';
-  } catch (err) {
-    console.error("🐞 Fetch error:", err);
-    document.getElementById("noResultMsg").textContent = "Failed to load penguins.";
-  }
+  const res = await fetch(`https://penguinanalytics.onrender.com/penguins/?sort_by=${sortBy}`);
+  const data = await res.json();
+  allPenguins = data;
+  renderPenguinTable(data);
+  document.getElementById("noResultMsg").textContent = '';
 }
-
 
 function renderPenguinTable(penguins, prepend = null) {
   const tbody = document.querySelector("#penguinTable tbody");
   tbody.innerHTML = "";
-
-  if (!Array.isArray(penguins)) {
-    console.error("Expected array but got:", penguins);
-    document.getElementById("noResultMsg").textContent = "Invalid data received.";
-    return;
-  }
 
   if (prepend) {
     const row = document.createElement("tr");
@@ -56,7 +30,6 @@ function renderPenguinTable(penguins, prepend = null) {
     tbody.appendChild(row);
   });
 }
-
 
 function formatPenguinRow(p) {
   return `
@@ -76,7 +49,7 @@ async function viewPenguin(id) {
 
   document.getElementById("greenName").textContent = penguin.name;
   document.getElementById("greenStage").textContent = penguin.status;
-  document.getElementById("penguinImage").src = penguin.latest_image || "fallback.jpg";
+  document.getElementById("penguinImage").src = penguin.image_url || "fallback.jpg";
 
 
   const ctx = document.getElementById("massChart").getContext("2d");
