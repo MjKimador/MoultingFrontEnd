@@ -49,7 +49,8 @@ async function viewPenguin(id) {
 
   document.getElementById("greenName").textContent = penguin.name;
   document.getElementById("greenStage").textContent = penguin.status;
-  document.getElementById("penguinImage").src = `images/${penguin.id}.jpg`;
+  document.getElementById("penguinImage").src = penguin.image_url || "fallback.jpg";
+
 
   const ctx = document.getElementById("massChart").getContext("2d");
   const res = await fetch(`https://penguinanalytics.onrender.com/penguins/${penguin.id}/weight-trend`);
