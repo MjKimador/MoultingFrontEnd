@@ -6,7 +6,7 @@ let pieChartInstance = null;
 
 async function loadPenguins() {
   const sortBy = document.getElementById("sortSelect").value;
-  const res = await fetch(`https://penguinanalytics.onrender.com/penguins/?sort_by=${sortBy}`);
+  const res = await fetch(`https://penguinanalytics.onrender.com/penguins?sort_by=last_seen`);
   const data = await res.json();
   allPenguins = data;
   renderPenguinTable(data);
