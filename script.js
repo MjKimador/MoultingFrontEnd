@@ -17,6 +17,12 @@ function renderPenguinTable(penguins, prepend = null) {
   const tbody = document.querySelector("#penguinTable tbody");
   tbody.innerHTML = "";
 
+  if (!Array.isArray(penguins)) {
+    console.error("Expected array but got:", penguins);
+    document.getElementById("noResultMsg").textContent = "Invalid data received.";
+    return;
+  }
+
   if (prepend) {
     const row = document.createElement("tr");
     row.innerHTML = formatPenguinRow(prepend);
@@ -30,6 +36,7 @@ function renderPenguinTable(penguins, prepend = null) {
     tbody.appendChild(row);
   });
 }
+
 
 function formatPenguinRow(p) {
   return `
