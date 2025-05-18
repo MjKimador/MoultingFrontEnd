@@ -6,7 +6,7 @@ let pieChartInstance = null;
 
 async function loadPenguins() {
   const sortBy = document.getElementById("sortSelect").value;
-  const res = await fetch(`http://127.0.0.1:8000/penguins/?sort_by=${sortBy}`);
+  const res = await fetch(`https://penguinanalytics.onrender.com/penguins/?sort_by=${sortBy}`);
   const data = await res.json();
   allPenguins = data;
   renderPenguinTable(data);
@@ -52,7 +52,7 @@ async function viewPenguin(id) {
   document.getElementById("penguinImage").src = `images/${penguin.id}.jpg`;
 
   const ctx = document.getElementById("massChart").getContext("2d");
-  const res = await fetch(`http://127.0.0.1:8000/penguins/${penguin.id}/weight-trend`);
+  const res = await fetch(`https://penguinanalytics.onrender.com/penguins/${penguin.id}/weight-trend`);
   const trend = await res.json();
 
   const labels = trend.map(t => t.date);
@@ -81,7 +81,7 @@ async function viewPenguin(id) {
 }
 
 async function deletePenguin(id) {
-  await fetch(`http://127.0.0.1:8000/penguins/${id}`, { method: "DELETE" });
+  await fetch(`https://penguinanalytics.onrender.com/penguins/${id}`, { method: "DELETE" });
   loadPenguins();
 }
 
@@ -92,7 +92,7 @@ async function searchPenguin() {
 
   if (!query) return;
 
-  const searchRes = await fetch(`http://127.0.0.1:8000/penguins/search?query=${query}`);
+  const searchRes = await fetch(`https://penguinanalytics.onrender.com/penguins/search?query=${query}`);
   const searchData = await searchRes.json();
   const searchedPenguin = searchData[0];
 
@@ -102,7 +102,7 @@ async function searchPenguin() {
     return;
   }
 
-  const penguinRes = await fetch(`http://127.0.0.1:8000/penguins/?sort_by=last_seen`);
+  const penguinRes = await fetch(`https://penguinanalytics.onrender.com/penguins/?sort_by=last_seen`);
   const penguins = await penguinRes.json();
   allPenguins = penguins;
   renderPenguinTable(penguins, searchedPenguin);
@@ -114,7 +114,7 @@ function clearSearch() {
   loadPenguins();
 }
 function downloadColonyStatsJSON() {
-  fetch("http://127.0.0.1:8000/analytics/colony-stats")
+  fetch("https://penguinanalytics.onrender.com/analytics/colony-stats")
     .then(res => res.json())
     .then(data => {
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -130,7 +130,7 @@ function downloadColonyStatsJSON() {
 
 async function downloadData() {
   try {
-    const res = await fetch("http://127.0.0.1:8000/penguins/download");
+    const res = await fetch("https://penguinanalytics.onrender.com/penguins/download");
     if (!res.ok) throw new Error("Failed to download data");
     const blob = await res.blob();
     const url = window.URL.createObjectURL(blob);
@@ -145,7 +145,7 @@ async function downloadData() {
 }
 
 async function viewColonyStats() {
-  const res = await fetch("http://127.0.0.1:8000/analytics/colony-stats");
+  const res = await fetch("https://penguinanalytics.onrender.com/analytics/colony-stats");
   const stats = await res.json();
 
   const barCtx = document.getElementById("colonyBarChart").getContext("2d");
