@@ -6,12 +6,32 @@ let pieChartInstance = null;
 
 async function loadPenguins() {
   const sortBy = document.getElementById("sortSelect").value;
-  const res = await fetch(`https://penguinanalytics.onrender.com/penguins/?sort_by=${sortBy}`);
-  const data = await res.json();
-  allPenguins = data;
-  renderPenguinTable(data);
-  document.getElementById("noResultMsg").textContent = '';
+  try {
+    const res = await fetch(`https://penguinanalytics.onrender.com/penguins/?sort_by=${sortBy}`);
+    const data = await res.json();
+
+    console.log("🔍 Status:", res.status);
+    console.log("🐧 Raw penguin response:", data);
+
+    if (!res.ok) {
+      throw new Error(`API Error ${res.status}: ${JSON.stringify(data)}`);
+    }
+
+    if (!Array.isArray(data)) {
+      console.error("Expected array but got:", data);
+      document.getElementById("noResultMsg").textContent = "Unexpected data format.";
+      return;
+    }
+
+    allPenguins = data;
+    renderPenguinTable(data);
+    document.getElementById("noResultMsg").textContent = '';
+  } catch (err) {
+    console.error("🐞 Fetch error:", err);
+    document.getElementById("noResultMsg").textContent = "Failed to load penguins.";
+  }
 }
+
 
 function renderPenguinTable(penguins, prepend = null) {
   const tbody = document.querySelector("#penguinTable tbody");
