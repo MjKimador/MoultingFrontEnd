@@ -50,7 +50,7 @@ async function viewPenguin(id) {
 
   document.getElementById("greenName").textContent = penguin.name;
   document.getElementById("greenStage").textContent = penguin.status;
-  document.getElementById("penguinImage").src = penguin.image_url || "fallback.jpg";
+  document.getElementById("penguinImage").src = penguin.latest_image || "https://res.cloudinary.com/dzdqtrkqs/image/upload/v1747592356/wb4w1lmwpjx59nkisqrk.jpg";
 
 
   const ctx = document.getElementById("massChart").getContext("2d");
